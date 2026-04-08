@@ -1,5 +1,13 @@
 # 🌐 Proyecto 2: Tu App
 
+> [!NOTE]
+> Documento de Google del proyecto
+> https://docs.google.com/document/d/1KSttHOqJWNlb5tB_mtz2xo_-Fl-3pmeiJ01qlcgzD1I/edit?tab=t.0
+
+> [!NOTE]
+> Tablero de trello del proyecto
+> https://trello.com/b/alUyyEbH/balanceo
+
 ## 🧩 Descripción
 
 Construirás una **aplicación React** que consuma una o varias **APIs externas** para mostrar datos dinámicos e interactuar con ellos.
