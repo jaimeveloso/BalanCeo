@@ -1,11 +1,19 @@
 "use client"
-//siguiente -> componetizar header, crear movimiento y movimientos
-//añadir color rojo o verde de gasto o ingreso en los movimientos y añadir el detalle del movimiento IMPORTANTE
+//(check) -> componetizado iconos, boton, inputs y labels. Corrigiendo errores como se ven los botones sin campos completados.
+//(check) -> Añadir detalle movimiento
+//siguiente -> componetizar crear movimiento y movimientos
+//añadir color rojo o verde de gasto o ingreso en los movimientos
 //añadir gráfica de balance en el dashboard
 //añadir vista balance
-//añadir el logo y el favicon
+//(check) -> añadir el logo y el favicon
 
 import { useState } from "react"
+import Header from "./components/Header/Header"
+import BackIcon from "./components/ui/icons/BackIcon"
+import CloseIcon from "./components/ui/icons/CloseIcon"
+import Button from "./components/ui/Button"
+import Input from "./components/ui/Input"
+import Select from "./components/ui/Select"
 const SCREENS = {
   LIST: "LIST",
   CARD: "CARD",
@@ -21,12 +29,12 @@ export default function Home() {
   const [isMovement, setIsMovement] = useState(false)
   const [selectedPage, setSelectedPage] = useState(SCREENS.LIST)
   const [typeOfMovement, setTypeOfMovement] = useState("expense")
+  const [detailMovement, setDetailMovement] = useState(null)
 
   const totalMoney = formData.reduce(
     (acc, total) => acc + Number(total.money || 0),
     0,
   )
-  console.log(formData)
   function changeScreenAtMovement(page) {
     setSelectedPage(page)
   }
@@ -36,12 +44,15 @@ export default function Home() {
   function changePageToMovement() {
     setIsMovement(true)
   }
-
+  function selectDetailMovement(data) {
+    setDetailMovement(data)
+  }
   function goToDashBoardPage() {
     setIsCreating(false)
     setIsMovement(false)
+    setDetailMovement(null)
   }
-  function reset() {
+  function resetForm() {
     setTitle("")
     setCategory("")
     setMoney("")
@@ -63,27 +74,23 @@ export default function Home() {
     }
     setFormData((previousData) => [...previousData, newData])
 
-    reset()
+    resetForm()
   }
-  console.log(typeOfMovement)
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       {/* ------------------------------------------------DASHBOARD---------------------------------------------------- */}
       {/* --------------NAVEGACIÓN HEADER--------------- */}
       {!isCreating && !isMovement && (
         <>
-          <header className="bg-blue-900 shadow-md shadow-blue-950 rounded-md">
-            <div className="max-w-6xl mx-auto flex justify-around px-3 py-7 items-center text-white">
-              <h1>LOGO</h1>
-              <div className="flex gap-7">
-                <button onClick={changePageToCreate}>Crear Movimiento</button>
-                <button>Light/Dark</button>
-              </div>
-            </div>
-          </header>
-          <main className="flex-1 flex flex-row gap-20 justify-around py-4 my-10 mx-20 rounded-lg shadow">
+          <Header changePageToCreate={changePageToCreate} />
+          <main className="flex-1 flex flex-row gap-20 justify-around py-4 my-10 mx-20 rounded-lg shadow bg-[#4893B1] relative overflow-hidden">
+            <img
+              src="/Balanceo.png"
+              alt="logo"
+              className="absolute inset-0 w-full h-full object-contain opacity-10 pointer-event-none z-0"
+            />
             {/* --------------------------BALANCE--------------------- */}
-            <section className="w-full">
+            <section className="w-full z-10">
               <div className="flex flex-col justify-around h-full items-center py-4 px-10">
                 <div className="rounded-lg flex flex-col justify-center items-center">
                   <h2 className="text-4xl px-5 py-5 font-serif my-1">
@@ -91,22 +98,22 @@ export default function Home() {
                   </h2>
                 </div>
                 <div className=" bg-gray-200 shadow-xs  shadow-gray-400 flex w-full h-full gap-2 justify-around text-end rounded-lg px-3 py-10">
-                  <p className="p-2 bg-green-200 h-full rounded-lg">
+                  <p className="p-2 bg-green-300 h-full rounded-lg">
                     Gráfica 1
                   </p>
                   <h1 className="text-4xl py-3 text-start">{totalMoney}€</h1>
 
-                  <p className="p-2 bg-red-200 h-full rounded-lg">Gráfica 2</p>
+                  <p className="p-2 bg-red-300 h-full rounded-lg">Gráfica 2</p>
                 </div>
               </div>
             </section>
             {/* ------------------MINI HISTORIAL MOVIMIENTOS----------------- */}
-            <section className="w-full">
+            <section className="w-full z-10">
               <div className="h-full items-center flex justify-around flex-col py-4 px-10">
                 <div className=" rounded-lg">
                   <button
                     onClick={changePageToMovement}
-                    className="text-4xl text-gray-600 px-3 py-3 my-1 font-serif hover:text-black transition-all duration-200 hover:scale-110"
+                    className="text-4xl text-gray-600 px-3 py-3 my-1 font-serif hover:text-black transition-all duration-400 hover:scale-110"
                   >
                     Movimientos
                   </button>
@@ -122,7 +129,7 @@ export default function Home() {
                       {formData.slice(-3).map((data, index) => (
                         <div
                           key={index}
-                          className={`flex justify-around py-10 rounded-lg ${Number(data.money) < 0 ? "bg-red-200" : "bg-green-200"}`}
+                          className={`flex justify-around py-10 rounded-lg ${Number(data.money) < 0 ? "bg-red-300" : "bg-green-300"}`}
                         >
                           <p>{data.title}</p>
                           <p>{data.money}€</p>
@@ -139,29 +146,19 @@ export default function Home() {
       {/* ----------------------------------------------CREAR MOVIMIENTO-------------------------------------------------------- */}
       {isCreating && (
         <div className="flex justify-center items-center flex-col h-screen">
-          <div className="flex flex-col w-full max-w-md gap-6 rounded-lg bg-linear-to-r from-transparent via-blue-900 to-transparent bg-blue-950 shadow-lg p-6 text-white/90 relative ">
-            <button onClick={goToDashBoardPage} className="absolute top-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-            </button>
+          <div className="flex flex-col w-full gap-6 max-w-md rounded-lg bg-linear-to-r from-transparent via-blue-900 to-transparent bg-blue-950 shadow-lg p-6 text-white/90 relative ">
+            <Button
+              onClick={goToDashBoardPage}
+              className="absolute top-4 left-4"
+            >
+              <BackIcon />
+            </Button>
 
             <h1 className="text-center font-bold text-2xl">
               Crear un nuevo movimiento
             </h1>
             <div className="flex justify-center w-full text-blue-950 gap-1">
-              <button
+              <Button
                 onClick={() => {
                   setTypeOfMovement("income")
                 }}
@@ -172,8 +169,8 @@ export default function Home() {
                 }
               >
                 Ingreso
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => {
                   setTypeOfMovement("expense")
                 }}
@@ -184,76 +181,75 @@ export default function Home() {
                 }
               >
                 Gasto
-              </button>
+              </Button>
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-              <div className="flex flex-col items-center mb-2">
-                <label className="block font-medium">Título</label>
-                <input
-                  type="text"
-                  onChange={(event) => setTitle(event.target.value)}
-                  value={title}
-                  placeholder="Entradas"
-                  className="w-full border italic border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-white"
-                ></input>
-              </div>
-              <div className="flex flex-col items-center mb-2">
-                <label className="block font-medium">Categoría</label>
-                <select
-                  value={category}
-                  onChange={(event) => setCategory(event.target.value)}
-                  className="rounded-sm p-1 bg-white text-blue-950"
-                >
-                  <option value="">Selecciona una categoría</option>
-                  {typeOfMovement === "income" && (
-                    <>
-                      <option value="Nómina">Nómina</option>
-                      <option value="Extra">Extra</option>
-                    </>
-                  )}
-                  {typeOfMovement === "expense" && (
-                    <>
-                      <option value="Ocio">Ocio</option>
-                      <option value="Alimentación">Alimentación</option>
-                      <option value="Transporte">Transporte</option>
-                      <option value="Vivienda">Vivienda</option>
-                      <option value="Salud">Salud</option>
-                    </>
-                  )}
-                </select>
-              </div>
-              <div className="flex flex-col items-center mb-2">
-                <label className="block font-medium">Descripción</label>
-                <input
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                  type="text"
-                  placeholder="Entradas para ver a Coldplay"
-                  className="w-full border italic border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-white"
-                ></input>
-              </div>
-              <div className="flex flex-col items-center mb-2">
-                <label className="block font-medium">Cantidad</label>
-                <input
-                  value={money}
-                  onChange={(event) => setMoney(event.target.value)}
-                  type="text"
-                  placeholder="0.00 €"
-                  className="w-full border italic border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-white"
-                ></input>
-              </div>
-              <div className="flex flex-col items-center mb-2">
-                <label className="block font-medium">Fecha</label>
-                <input
-                  value={date}
-                  onChange={(event) => setDate(event.target.value)}
-                  type="date"
-                  className="rounded-sm p-1 bg-white text-blue-950"
-                ></input>
-              </div>
-              <button className="w-full text-center rounded-lg bg-white text-blue-950 hover:bg-gray-200 hover:text-black p-3">
+              <Input
+                divClassName="flex flex-col items-center mb-2"
+                labelClassName="block font-medium"
+                text="Título"
+                type="text"
+                onChange={(event) => setTitle(event.target.value)}
+                value={title}
+                placeholder="Entradas"
+                inputClassName="w-full border italic border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-white"
+              />
+              <Select
+                divClassName="flex flex-col items-center mb-2"
+                labelClassName="block font-medium"
+                labelTitle="Categoría"
+                value={category}
+                onChange={(event) => setCategory(event.target.value)}
+                optionHeader="Seleccione una categoría"
+                selectClassName="rounded-sm p-1 bg-white text-blue-950"
+                options={
+                  typeOfMovement === "income"
+                    ? [
+                        { title: "Nómina", value: "Nómina" },
+                        { title: "Extra", value: "Extra" },
+                      ]
+                    : [
+                        { title: "Ocio", value: "Ocio" },
+                        { title: "Alimentación", value: "Alimentación" },
+                        { title: "Transporte", value: "Transporte" },
+                        { title: "Vivienda", value: "Vivienda" },
+                        { title: "Salud", value: "Salud" },
+                      ]
+                }
+              />
+              <Input
+                divClassName="flex flex-col items-center mb-2"
+                labelClassName="block font-medium"
+                text="Descripción"
+                type="text"
+                onChange={(event) => setDescription(event.target.value)}
+                value={description}
+                placeholder="Entradas para ver a Coldplay"
+                inputClassName="w-full border italic border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-white"
+              />
+              <Input
+                divClassName="flex flex-col items-center mb-2"
+                labelClassName="block font-medium"
+                text="Cantidad"
+                type="text"
+                onChange={(event) => setMoney(event.target.value)}
+                value={money}
+                placeholder="0,00€"
+                inputClassName="w-full border italic border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-white"
+              />
+              <Input
+                divClassName="flex flex-col items-center mb-2"
+                labelClassName="block font-medium"
+                text="Fecha"
+                type="date"
+                onChange={(event) => setDate(event.target.value)}
+                value={date}
+                inputClassName="rounded-sm p-1 bg-white text-blue-950"
+              />
+
+              <Button className="w-full text-center rounded-lg bg-white text-blue-950 hover:bg-gray-200 hover:text-black p-3">
                 Guardar
-              </button>
+              </Button>
             </form>
           </div>
         </div>
@@ -264,43 +260,31 @@ export default function Home() {
       {isMovement && selectedPage === SCREENS.LIST && (
         <div className="flex items-center flex-col h-full my-10">
           <div className="flex flex-col w-full max-w-lg gap-6 rounded-lg  bg-blue-100 shadow-lg p-6">
-            <button
+            <Button
               onClick={goToDashBoardPage}
               className="absloute top-4 hover:text-blue-950"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-6 "
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-            </button>
+              <BackIcon />
+            </Button>
             <div className="flex gap-2 justify-center text-white">
-              <button
+              <Button
                 onClick={() => changeScreenAtMovement(SCREENS.LIST)}
                 className="rounded-lg py-1 px-1 bg-gray-500 hover:bg-gray-600"
               >
                 Listado
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => changeScreenAtMovement(SCREENS.CARD)}
                 className="rounded-lg py-1 px-1 bg-gray-500 hover:bg-gray-600"
               >
                 Tarjetas
-              </button>
+              </Button>
             </div>
             <h1 className="text-center font-bold text-2xl">Movimientos</h1>
             {formData.map((data, index) => (
               <div
                 key={index}
+                onClick={() => selectDetailMovement(data)}
                 className="flex justify-between items-center px-2 py-2 bg-blue-200 rounded-lg shadow-sm"
               >
                 <div>
@@ -310,49 +294,81 @@ export default function Home() {
                 <p className="">{data.money}€</p>
               </div>
             ))}
+            {/* -----------------DETALLE MOVIMIENTO--------------------- */}
+            {detailMovement && (
+              <div className="flex flex-col justify-center text-center gap-2 w-full py-3 px-3 rounded-lg shadow-md relative">
+                {detailMovement.title && (
+                  <h1 className="font-bold text-center text-xl">
+                    {detailMovement.title}
+                  </h1>
+                )}
+                {!detailMovement.title && (
+                  <h1 className="text-center text-xl italic">Sin título</h1>
+                )}
+                <Button
+                  onClick={() => setDetailMovement(null)}
+                  className="absolute top-2 right-2"
+                >
+                  <CloseIcon />
+                </Button>
+                <div className="rounded-md shadow-sm py-2">
+                  <p className="font-bold font-mono">Categoría</p>
+                  <p>{detailMovement.category}</p>
+                </div>
+                <div className="rounded-md shadow-sm py-2">
+                  <p className="font-bold font-mono">
+                    Descripción del movimiento
+                  </p>
+                  <p>{detailMovement.description}</p>
+                </div>
+                <div className="rounded-md shadow-sm py-2">
+                  <p className="font-bold font-mono">Fecha del gasto</p>
+                  <p>
+                    {new Date(detailMovement.date).toLocaleDateString("es-ES", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
+                <div className="rounded-md shadow-sm py-2">
+                  <p className="font-bold font-mono">Cantidad</p>
+                  <p>{detailMovement.money}€</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
+
       {/* ---------------------CARD---------------------- */}
       {isMovement && selectedPage === SCREENS.CARD && (
         <div className="flex items-center flex-col h-full my-10">
           <div className="flex flex-col w-full max-w-lg gap-6 rounded-lg  bg-blue-100 shadow-lg p-6">
-            <button onClick={goToDashBoardPage} className="absloute top-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-            </button>
+            <Button onClick={goToDashBoardPage} className="absloute top-4">
+              <BackIcon />
+            </Button>
             <div className="flex gap-2 justify-center text-white">
-              <button
+              <Button
                 onClick={() => changeScreenAtMovement(SCREENS.LIST)}
                 className="rounded-lg py-1 px-1 bg-gray-500 hover:bg-gray-600"
               >
                 Listado
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => changeScreenAtMovement(SCREENS.CARD)}
                 className="rounded-lg py-1 px-1 bg-gray-500 hover:bg-gray-600"
               >
                 Tarjetas
-              </button>
+              </Button>
             </div>
             <h1 className="text-center font-bold text-2xl">Movimientos</h1>
             <div className="grid w-full grid-cols-3 gap-3">
               {formData.map((data, index) => (
                 <div
                   key={index}
-                  className="flex max-w-sm flex-col px-2 py-2 rounded-lg shadow-sm bg-blue-200"
+                  onClick={() => selectDetailMovement(data)}
+                  className="flex max-w-sm flex-col items-center px-2 py-2 rounded-lg shadow-sm bg-blue-200"
                 >
                   <div className="flex flex-col gap-2 py-2">
                     <p className="font-bold">{data.title}</p>
@@ -362,6 +378,44 @@ export default function Home() {
                 </div>
               ))}
             </div>
+            {/*--------------------- DETALLE MOVIMIENTO----------------- */}
+            {detailMovement && (
+              <div className="flex flex-col justify-center text-center gap-2 w-full py-3 px-3 rounded-lg shadow-md relative">
+                <h1 className="font-bold text-center text-xl">
+                  {detailMovement.title}
+                </h1>
+                <Button
+                  onClick={() => setDetailMovement(null)}
+                  className="absolute top-2 right-2"
+                >
+                  <CloseIcon />
+                </Button>
+                <div className="rounded-md shadow-sm py-2">
+                  <p className="font-bold font-mono">Categoría</p>
+                  <p>{detailMovement.category}</p>
+                </div>
+                <div className="rounded-md shadow-sm py-2">
+                  <p className="font-bold font-mono">
+                    Descripción del movimiento
+                  </p>
+                  <p>{detailMovement.description}</p>
+                </div>
+                <div className="rounded-md shadow-sm py-2">
+                  <p className="font-bold font-mono">Fecha del gasto</p>
+                  <p>
+                    {new Date(detailMovement.date).toLocaleDateString("es-ES", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
+                <div className="rounded-md shadow-sm py-2">
+                  <p className="font-bold font-mono">Cantidad</p>
+                  <p>{detailMovement.money}€</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
