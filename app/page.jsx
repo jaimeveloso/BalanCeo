@@ -1,19 +1,20 @@
 "use client"
 //(check) -> componetizado iconos, boton, inputs y labels. Corrigiendo errores como se ven los botones sin campos completados.
 //(check) -> Añadir detalle movimiento
-//siguiente -> componetizar crear movimiento y movimientos
+//siguiente -> crean vista de balance y despues filtrados por categorias, fecha, etc
+//componetizar crear movimiento y movimientos
 //añadir color rojo o verde de gasto o ingreso en los movimientos
-//añadir gráfica de balance en el dashboard
-//añadir vista balance
+//(check) ->añadir gráfica de balance en el dashboard
 //(check) -> añadir el logo y el favicon
 
 import { useState } from "react"
-import Header from "./components/Header/Header"
-import BackIcon from "./components/ui/icons/BackIcon"
-import CloseIcon from "./components/ui/icons/CloseIcon"
-import Button from "./components/ui/Button"
-import Input from "./components/ui/Input"
-import Select from "./components/ui/Select"
+import Header from "@/components/Header/Header"
+import BackIcon from "@/components/ui/icons/BackIcon"
+import CloseIcon from "@/components/ui/icons/CloseIcon"
+import Button from "@/components/ui/Button/Button"
+import Input from "@/components/ui/Input/Input"
+import Select from "@/components/ui/Select/Select"
+import DashboardChart from "@/components/Charts/DashboardChart/DashboardChart"
 const SCREENS = {
   LIST: "LIST",
   CARD: "CARD",
@@ -30,13 +31,18 @@ export default function Home() {
   const [selectedPage, setSelectedPage] = useState(SCREENS.LIST)
   const [typeOfMovement, setTypeOfMovement] = useState("expense")
   const [detailMovement, setDetailMovement] = useState(null)
+  const [balanceView, setBalanceView] = useState(false)
 
   const totalMoney = formData.reduce(
     (acc, total) => acc + Number(total.money || 0),
     0,
   )
+
   function changeScreenAtMovement(page) {
     setSelectedPage(page)
+  }
+  function changeBalanceView() {
+    setBalanceView(true)
   }
   function changePageToCreate() {
     setIsCreating(true)
@@ -76,11 +82,12 @@ export default function Home() {
 
     resetForm()
   }
+  console.log(formData)
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       {/* ------------------------------------------------DASHBOARD---------------------------------------------------- */}
       {/* --------------NAVEGACIÓN HEADER--------------- */}
-      {!isCreating && !isMovement && (
+      {!isCreating && !isMovement && !balanceView && (
         <>
           <Header changePageToCreate={changePageToCreate} />
           <main className="flex-1 flex flex-row gap-20 justify-around py-4 my-10 mx-20 rounded-lg shadow bg-[#4893B1] relative overflow-hidden">
@@ -93,17 +100,18 @@ export default function Home() {
             <section className="w-full z-10">
               <div className="flex flex-col justify-around h-full items-center py-4 px-10">
                 <div className="rounded-lg flex flex-col justify-center items-center">
-                  <h2 className="text-4xl px-5 py-5 font-serif my-1">
+                  <Button
+                    onClick={changeBalanceView}
+                    className="text-4xl px-5 py-3 font-serif my-1 text-gray-600 hover:text-black transition-all duration-400 hover:scale-110"
+                  >
                     Balance
-                  </h2>
+                  </Button>
                 </div>
-                <div className=" bg-gray-200 shadow-xs  shadow-gray-400 flex w-full h-full gap-2 justify-around text-end rounded-lg px-3 py-10">
-                  <p className="p-2 bg-green-300 h-full rounded-lg">
-                    Gráfica 1
-                  </p>
-                  <h1 className="text-4xl py-3 text-start">{totalMoney}€</h1>
-
-                  <p className="p-2 bg-red-300 h-full rounded-lg">Gráfica 2</p>
+                <div className=" bg-gray-200 shadow-xs  shadow-gray-400 h-full w-full flex flex-col gap-2 justify-end text-end rounded-lg px-3">
+                  <h1 className="text-4xl py-3 text-center font-mono">
+                    {totalMoney}€
+                  </h1>
+                  <DashboardChart formData={formData} />
                 </div>
               </div>
             </section>
@@ -129,7 +137,7 @@ export default function Home() {
                       {formData.slice(-3).map((data, index) => (
                         <div
                           key={index}
-                          className={`flex justify-around py-10 rounded-lg ${Number(data.money) < 0 ? "bg-red-300" : "bg-green-300"}`}
+                          className={`flex justify-around py-10 rounded-lg ${Number(data.money) < 0 ? "bg-red-300/50" : "bg-green-300/50"}`}
                         >
                           <p>{data.title}</p>
                           <p>{data.money}€</p>
@@ -419,6 +427,7 @@ export default function Home() {
           </div>
         </div>
       )}
+      {balanceView && <h1>Balance</h1>}
     </div>
   )
 }
