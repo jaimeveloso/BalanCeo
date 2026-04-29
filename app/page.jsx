@@ -14,7 +14,9 @@ import CloseIcon from "@/components/ui/icons/CloseIcon"
 import Button from "@/components/ui/Button/Button"
 import Input from "@/components/ui/Input/Input"
 import Select from "@/components/ui/Select/Select"
-import DashboardChart from "@/components/Charts/DashboardChart/DashboardChart"
+import DashboardChart from "@/components/Charts/Bar/BarChart"
+import FilterIcon from "@/components/ui/icons/FilterIcon"
+import BalanceBoard from "./BalanceBoard"
 const SCREENS = {
   LIST: "LIST",
   CARD: "CARD",
@@ -44,7 +46,8 @@ export default function Home() {
   function changeBalanceView() {
     setBalanceView(true)
   }
-  function changePageToCreate() {
+
+  function goesToCreatePage() {
     setIsCreating(true)
   }
   function changePageToMovement() {
@@ -53,10 +56,12 @@ export default function Home() {
   function selectDetailMovement(data) {
     setDetailMovement(data)
   }
+  //poner los setters directamente en la llamada del onclick
   function goToDashBoardPage() {
     setIsCreating(false)
     setIsMovement(false)
     setDetailMovement(null)
+    setBalanceView(false)
   }
   function resetForm() {
     setTitle("")
@@ -89,12 +94,12 @@ export default function Home() {
       {/* --------------NAVEGACIÓN HEADER--------------- */}
       {!isCreating && !isMovement && !balanceView && (
         <>
-          <Header changePageToCreate={changePageToCreate} />
+          <Header goesToCreatePage={goesToCreatePage} />
           <main className="flex-1 flex flex-row gap-20 justify-around py-4 my-10 mx-20 rounded-lg shadow bg-[#4893B1] relative overflow-hidden">
             <img
               src="/Balanceo.png"
               alt="logo"
-              className="absolute inset-0 w-full h-full object-contain opacity-10 pointer-event-none z-0"
+              className="absolute inset-0 w-full h-full object-contain opacity-10 pointer-events-none z-0"
             />
             {/* --------------------------BALANCE--------------------- */}
             <section className="w-full z-10">
@@ -107,7 +112,7 @@ export default function Home() {
                     Balance
                   </Button>
                 </div>
-                <div className=" bg-gray-200 shadow-xs  shadow-gray-400 h-full w-full flex flex-col gap-2 justify-end text-end rounded-lg px-3">
+                <div className=" bg-gray-200 shadow-xs  shadow-gray-400 h-full w-full flex flex-col gap-5 justify-center rounded-lg px-3">
                   <h1 className="text-4xl py-3 text-center font-mono">
                     {totalMoney}€
                   </h1>
@@ -153,7 +158,12 @@ export default function Home() {
       )}
       {/* ----------------------------------------------CREAR MOVIMIENTO-------------------------------------------------------- */}
       {isCreating && (
-        <div className="flex justify-center items-center flex-col h-screen">
+        <div className="flex justify-center items-center flex-col h-screen relative overflow-hidden bg-[#B4CADC]">
+          <img
+            src="/Balanceo-redondo.png"
+            alt="logo"
+            className="absolute inset-0 w-full h-full object-contain opacity-1 pointer-events-none z-0"
+          />
           <div className="flex flex-col w-full gap-6 max-w-md rounded-lg bg-linear-to-r from-transparent via-blue-900 to-transparent bg-blue-950 shadow-lg p-6 text-white/90 relative ">
             <Button
               onClick={goToDashBoardPage}
@@ -192,68 +202,63 @@ export default function Home() {
               </Button>
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-              <Input
-                divClassName="flex flex-col items-center mb-2"
-                labelClassName="block font-medium"
-                text="Título"
-                type="text"
-                onChange={(event) => setTitle(event.target.value)}
-                value={title}
-                placeholder="Entradas"
-                inputClassName="w-full border italic border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-white"
-              />
-              <Select
-                divClassName="flex flex-col items-center mb-2"
-                labelClassName="block font-medium"
-                labelTitle="Categoría"
-                value={category}
-                onChange={(event) => setCategory(event.target.value)}
-                optionHeader="Seleccione una categoría"
-                selectClassName="rounded-sm p-1 bg-white text-blue-950"
-                options={
-                  typeOfMovement === "income"
-                    ? [
-                        { title: "Nómina", value: "Nómina" },
-                        { title: "Extra", value: "Extra" },
-                      ]
-                    : [
-                        { title: "Ocio", value: "Ocio" },
-                        { title: "Alimentación", value: "Alimentación" },
-                        { title: "Transporte", value: "Transporte" },
-                        { title: "Vivienda", value: "Vivienda" },
-                        { title: "Salud", value: "Salud" },
-                      ]
-                }
-              />
-              <Input
-                divClassName="flex flex-col items-center mb-2"
-                labelClassName="block font-medium"
-                text="Descripción"
-                type="text"
-                onChange={(event) => setDescription(event.target.value)}
-                value={description}
-                placeholder="Entradas para ver a Coldplay"
-                inputClassName="w-full border italic border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-white"
-              />
-              <Input
-                divClassName="flex flex-col items-center mb-2"
-                labelClassName="block font-medium"
-                text="Cantidad"
-                type="text"
-                onChange={(event) => setMoney(event.target.value)}
-                value={money}
-                placeholder="0,00€"
-                inputClassName="w-full border italic border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-white"
-              />
-              <Input
-                divClassName="flex flex-col items-center mb-2"
-                labelClassName="block font-medium"
-                text="Fecha"
-                type="date"
-                onChange={(event) => setDate(event.target.value)}
-                value={date}
-                inputClassName="rounded-sm p-1 bg-white text-blue-950"
-              />
+              <div className="flex flex-col items-center mb-2">
+                <Input
+                  text="Título"
+                  type="text"
+                  onChange={(event) => setTitle(event.target.value)}
+                  value={title}
+                  placeholder="Entradas"
+                />
+              </div>
+              <div className="flex flex-col items-center mb-2">
+                <Select
+                  labelTitle="Categoría"
+                  value={category}
+                  onChange={(event) => setCategory(event.target.value)}
+                  optionHeader="Seleccione una categoría"
+                  options={
+                    typeOfMovement === "income"
+                      ? [
+                          { title: "Nómina", value: "Nómina" },
+                          { title: "Extra", value: "Extra" },
+                        ]
+                      : [
+                          { title: "Ocio", value: "Ocio" },
+                          { title: "Alimentación", value: "Alimentación" },
+                          { title: "Transporte", value: "Transporte" },
+                          { title: "Vivienda", value: "Vivienda" },
+                          { title: "Salud", value: "Salud" },
+                        ]
+                  }
+                />
+              </div>
+              <div className="flex flex-col items-center mb-2">
+                <Input
+                  text="Descripción"
+                  type="text"
+                  onChange={(event) => setDescription(event.target.value)}
+                  value={description}
+                  placeholder="Entradas para ver a Coldplay"
+                />
+              </div>
+              <div className="flex flex-col items-center mb-2">
+                <Input
+                  text="Cantidad"
+                  type="text"
+                  onChange={(event) => setMoney(event.target.value)}
+                  value={money}
+                  placeholder="0,00€"
+                />
+              </div>
+              <div className="flex flex-col items-center mb-2">
+                <Input
+                  text="Fecha"
+                  type="date"
+                  onChange={(event) => setDate(event.target.value)}
+                  value={date}
+                />
+              </div>
 
               <Button className="w-full text-center rounded-lg bg-white text-blue-950 hover:bg-gray-200 hover:text-black p-3">
                 Guardar
@@ -266,7 +271,12 @@ export default function Home() {
       {/* movimientos tipo lista o card y poder hacer click para ver el detalle del movimiento */}
       {/*----------------------LISTA--------------------- */}
       {isMovement && selectedPage === SCREENS.LIST && (
-        <div className="flex items-center flex-col h-full my-10">
+        <div className="flex items-center flex-col h-full w-full h-screen py-10 bg-[#B4CADC]">
+          <img
+            src="/Balanceo-redondo.png"
+            alt="logo"
+            className="absolute inset-0 w-full h-full object-contain opacity-1 pointer-events-none z-0"
+          />
           <div className="flex flex-col w-full max-w-lg gap-6 rounded-lg  bg-blue-100 shadow-lg p-6">
             <Button
               onClick={goToDashBoardPage}
@@ -427,7 +437,15 @@ export default function Home() {
           </div>
         </div>
       )}
-      {balanceView && <h1>Balance</h1>}
+      {/* datos a necesitar: 
+-balance total
+-total ingresos
+-total gastos
+-dinero por categorías (gasto)
+-dinero entre fechas (ingreso y gasto) */}
+      {balanceView && (
+        <BalanceBoard setBalanceView={setBalanceView} formData={formData} />
+      )}
     </div>
   )
 }
