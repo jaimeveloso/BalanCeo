@@ -1,6 +1,6 @@
 import Button from "../ui/Button/Button"
 
-function Header({ changePageToCreate }) {
+function Header({ goesToCreatePage }) {
   return (
     <header className="bg-blue-900 shadow-md shadow-blue-950 rounded-md">
       <div className="max-w-6xl mx-auto flex justify-between px-3 py-5 items-center text-white">
@@ -13,7 +13,7 @@ function Header({ changePageToCreate }) {
           <span className="font-serif text-xl font-bold">BalanCeo</span>
         </div>
         <div className="flex gap-7">
-          <Button onClick={changePageToCreate}>Crear Movimiento</Button>
+          <Button onClick={goesToCreatePage}>Crear Movimiento</Button>
           <Button>Light/Dark</Button>
         </div>
       </div>

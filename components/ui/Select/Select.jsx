@@ -1,25 +1,20 @@
-function Select({
-  labelClassName,
-  divClassName,
-  labelTitle,
-  value,
-  onChange,
-  selectClassName,
-  optionHeader,
-  options = [],
-}) {
+function Select({ labelTitle, value, onChange, optionHeader, options = [] }) {
   return (
-    <div className={divClassName}>
-      <label className={labelClassName}>{labelTitle}</label>
-      <select value={value} onChange={onChange} className={selectClassName}>
+    <>
+      <label className="block font-medium">{labelTitle}</label>
+      <select
+        value={value}
+        onChange={onChange}
+        className="rounded-sm p-1 bg-white text-blue-950"
+      >
         <option value="">{optionHeader}</option>
-        {options.map((choice, index) => (
-          <option key={index} value={choice.value}>
-            {choice.title}
+        {options.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.title}
           </option>
         ))}
       </select>
-    </div>
+    </>
   )
 }
 export default Select
