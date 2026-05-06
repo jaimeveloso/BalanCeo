@@ -10,11 +10,11 @@ function PieChart({ sumCategoriesMoney }) {
     datasets: [
       {
         data: [
-          [-sumCategoriesMoney.social],
-          [-sumCategoriesMoney.transport],
-          [-sumCategoriesMoney.food],
-          [-sumCategoriesMoney.health],
-          [-sumCategoriesMoney.house],
+          -sumCategoriesMoney.social,
+          -sumCategoriesMoney.transport,
+          -sumCategoriesMoney.food,
+          -sumCategoriesMoney.health,
+          -sumCategoriesMoney.house,
         ],
         backgroundColor: [
           "rgba(156, 39, 176, 0.6)",
@@ -50,7 +50,7 @@ function PieChart({ sumCategoriesMoney }) {
   }
 
   return (
-    <div className="h-100 mx-auto w-auto">
+    <div className="h-100 flex items-center justify-center w-full">
       <Pie data={data} options={options} />
     </div>
   )

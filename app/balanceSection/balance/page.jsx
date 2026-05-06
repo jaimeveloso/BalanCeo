@@ -3,7 +3,12 @@ import Button from "@/components/ui/Button/Button"
 import BackIcon from "@/components/ui/icons/BackIcon"
 import PieChart from "@/components/Charts/Pie/PieChart"
 import BarChart from "@/components/Charts/Bar/BarChart"
-function BalanceBoard({ formData, setBalanceView }) {
+import { useContext } from "react"
+import { FinanceContext } from "@/context/FinanceContext"
+import Link from "next/link"
+import Header from "@/app/Header/Header"
+function BalanceBoard() {
+  const { formData } = useContext(FinanceContext)
   const onlyNegativeCategories = formData.filter((num) => num.money < 0)
   const negativeCategoriesMoney = {
     social: 0,
@@ -13,39 +18,28 @@ function BalanceBoard({ formData, setBalanceView }) {
     food: 0,
   }
   const sumCategoriesMoney = onlyNegativeCategories.reduce((acc, total) => {
-    if (total.category === "Ocio") {
-      acc.social += total.money
-    }
-    if (total.category === "Transporte") {
-      acc.transport += total.money
-    }
-    if (total.category === "Alimentación") {
-      acc.food += total.money
-    }
-    if (total.category === "Vivienda") {
-      acc.house += total.money
-    }
-    if (total.category === "Salud") {
-      acc.health += total.money
-    }
+    acc[total.category] += total.money
     return acc
   }, negativeCategoriesMoney)
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-[#B4CADC]">
+      <Header />
       <img
-        src="/Balanceo-redondo.png"
+        src="/rounded-balanceo.png"
         alt="logo"
         className="absolute inset-0 w-full h-full object-contain opacity-1 pointer-events-none z-0"
       />
-      <div className="h-full w-full flex flex-col gap-20 items-center py-6">
-        <div className="flex items-center gap-2 w-full px-10">
-          <Button onClick={() => setBalanceView(false)}>
-            <BackIcon />
-          </Button>
-          <h1 className="flex-1 text-center">Balance</h1>
+      <div className="w-full flex flex-col gap-20 items-center py-6 justify-center">
+        <div className="flex justify-center w-full px-20">
+          <Link href="/" className="flex items-center">
+            <Button>
+              <BackIcon />
+            </Button>
+          </Link>
+          <h1 className="px-20 font-serif text-4xl font-bold">Balance</h1>
         </div>
-        <div className="grid grid-cols-2 w-full">
+        <div className="grid grid-cols-2 w-full gap-20">
           <BarChart formData={formData} />
           <PieChart sumCategoriesMoney={sumCategoriesMoney} />
         </div>

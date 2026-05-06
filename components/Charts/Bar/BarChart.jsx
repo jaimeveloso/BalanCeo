@@ -11,20 +11,21 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 import { options } from "./barchart.config"
 import { dashboardData } from "./barchart.data"
-function BarChart({ formData }) {
+import { useContext } from "react"
+import { FinanceContext } from "@/context/FinanceContext"
+function BarChart() {
+  const { formData } = useContext(FinanceContext)
   const totalIncome = formData.reduce((acc, total) => {
     if (total.money > 0) {
       return (acc += total.money)
-    } else {
-      return acc
     }
+    return acc
   }, 0)
   const totalExpense = formData.reduce((acc, total) => {
     if (total.money < 0) {
       return (acc += total.money)
-    } else {
-      return acc
     }
+    return acc
   }, 0)
   const data = dashboardData(totalExpense, totalIncome)
 
