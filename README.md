@@ -1,11 +1,11 @@
 # 🌐 Proyecto 2: Tu App
 
 > [!NOTE]
-> Documento de Google del proyecto
+> Documento del proyecto
 > https://docs.google.com/document/d/1KSttHOqJWNlb5tB_mtz2xo_-Fl-3pmeiJ01qlcgzD1I/edit?tab=t.0
 
 > [!NOTE]
-> Tablero de trello del proyecto
+> Trello del proyecto
 > https://trello.com/b/alUyyEbH/balanceo
 
 ## 🧩 Descripción
