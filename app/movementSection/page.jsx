@@ -9,7 +9,7 @@ function MovementsSection() {
     <div className="h-full items-center flex justify-around flex-col py-4 px-10">
       <div className=" rounded-lg">
         <Link href="/movements">
-          <Button className="text-4xl text-gray-600 px-3 py-3 my-1 font-serif hover:text-black transition-all duration-400 hover:scale-110">
+          <Button className="text-4xl text-gray-800 px-3 py-3 my-1 font-serif active:scale-105 transition-transform hover:cursor-pointer">
             Movimientos
           </Button>
         </Link>

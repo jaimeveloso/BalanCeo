@@ -10,7 +10,7 @@ function Movements() {
   const { selectedPage } = useContext(FinanceContext)
 
   return (
-    <>
+    <div className="h-screen bg-gray-100">
       {selectedPage === SCREENS.LIST && (
         <>
           <Header />
@@ -23,7 +23,7 @@ function Movements() {
           <Card />
         </>
       )}
-    </>
+    </div>
   )
 }
 export default Movements

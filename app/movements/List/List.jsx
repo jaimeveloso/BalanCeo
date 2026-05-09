@@ -5,6 +5,10 @@ import { SCREENS } from "@/app/screens/screens"
 import { useContext } from "react"
 import { FinanceContext } from "@/context/FinanceContext"
 import Link from "next/link"
+import DeleteIcon from "@/components/ui/icons/DeleteIcon"
+import DetailIcon from "@/components/ui/icons/DetailIcon"
+import CloseDetailIcon from "@/components/ui/icons/CloseDetailIcon"
+import Image from "next/image"
 
 function List() {
   const {
@@ -13,15 +17,17 @@ function List() {
     setDetailMovement,
     selectDetailMovement,
     changeScreenAtMovement,
+    deleteMovement,
   } = useContext(FinanceContext)
   return (
-    <div className="flex items-center flex-col w-full h-screen py-10 bg-[#B4CADC]">
-      <img
+    <div className="flex items-center flex-col w-full py-10">
+      <Image
         src="/rounded-balanceo.png"
         alt="logo"
+        fill
         className="absolute inset-0 w-full h-full object-contain opacity-1 pointer-events-none z-0"
       />
-      <div className="flex flex-col w-full max-w-lg gap-6 rounded-lg  bg-blue-100 shadow-lg p-6">
+      <div className="flex flex-col w-full max-w-lg gap-6 rounded-xl bg-gray-50 shadow-lg p-6">
         <Link href="/">
           <Button className="absloute top-4 hover:text-blue-950">
             <BackIcon />
@@ -30,13 +36,13 @@ function List() {
         <div className="flex gap-2 justify-center text-white">
           <Button
             onClick={() => changeScreenAtMovement(SCREENS.LIST)}
-            className="rounded-lg py-1 px-1 bg-gray-500 hover:bg-gray-600"
+            className="rounded-lg py-1 px-2 bg-gray-500 hover:bg-gray-600 hover:cursor-pointer"
           >
             Listado
           </Button>
           <Button
             onClick={() => changeScreenAtMovement(SCREENS.CARD)}
-            className="rounded-lg py-1 px-1 bg-gray-500 hover:bg-gray-600"
+            className="rounded-lg py-1 px-2 bg-gray-500 hover:bg-gray-600 hover:cursor-pointer"
           >
             Tarjetas
           </Button>
@@ -45,16 +51,33 @@ function List() {
         {formData.map((data, index) => (
           <div
             key={index}
-            onClick={() => {
-              selectDetailMovement(data)
-            }}
-            className="flex justify-between items-center px-2 py-2 bg-blue-200 rounded-lg shadow-sm"
+            className={`flex justify-between items-center px-2 py-2 rounded-lg shadow-sm ${Number(data.money) < 0 ? "bg-red-100" : "bg-green-100"}`}
           >
             <div>
               <p className="font-bold">{data.title}</p>
               <p className="font-thin">{data.category}</p>
             </div>
-            <p className="">{data.money}€</p>
+            <div className="flex gap-5">
+              <p className="">{data.money}€</p>
+              <Button
+                onClick={() => {
+                  if (detailMovement?.id === data.id) {
+                    setDetailMovement(null)
+                  } else {
+                    selectDetailMovement(data)
+                  }
+                }}
+              >
+                {detailMovement?.id === data.id ? (
+                  <CloseDetailIcon />
+                ) : (
+                  <DetailIcon />
+                )}
+              </Button>
+              <Button onClick={() => deleteMovement(data.id)}>
+                <DeleteIcon />
+              </Button>
+            </div>
           </div>
         ))}
         {/* -----------------DETALLE MOVIMIENTO--------------------- */}
