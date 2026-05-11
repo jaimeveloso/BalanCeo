@@ -2,7 +2,7 @@
 import { useContext, useState } from "react"
 import Card from "./Card/Card"
 import List from "./List/List"
-import { SCREENS } from "../screens/screens"
+import { SCREENS } from "../constants/screens"
 import Header from "../Header/Header"
 import { FinanceContext } from "@/context/FinanceContext"
 

@@ -5,19 +5,26 @@ import BackIcon from "@/components/ui/icons/BackIcon"
 import Input from "@/components/ui/Input/Input"
 import Select from "@/components/ui/Select/Select"
 import { FinanceContext } from "@/context/FinanceContext"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
+import { expenseCategories, incomeCategories } from "@/app/constants/categories"
+import {
+  BACKEND_CALL_TIME,
+  BANNER_VISIBLE_TIME,
+} from "@/app/constants/callTimes"
 
-function CreateMovement() {
+function CreateMovement({ setOpenCreate }) {
   const [title, setTitle] = useState("")
   const [category, setCategory] = useState("")
   const [description, setDescription] = useState("")
   const [money, setMoney] = useState("")
   const [date, setDate] = useState("")
   const [typeOfMovement, setTypeOfMovement] = useState("expense")
-  const { addMovement, movementId } = useContext(FinanceContext)
-  const router = useRouter()
+  const {
+    addMovement,
+    movementId,
+    setAddedMovementBanner,
+    loading,
+    setLoading,
+  } = useContext(FinanceContext)
   const handleSubmit = (event) => {
     event.preventDefault()
     const newData = {
@@ -38,45 +45,40 @@ function CreateMovement() {
     setDate("")
     setDescription("")
     setTypeOfMovement("expense")
-    router.push("/")
+    setOpenCreate(false)
   }
-  const expenseCategories = [
-    { title: "Ocio", value: "social" },
-    { title: "Alimentación", value: "food" },
-    { title: "Transporte", value: "transport" },
-    { title: "Vivienda", value: "house" },
-    { title: "Salud", value: "health" },
-  ]
-  const incomeCategories = [
-    { title: "Nómina", value: "payroll" },
-    { title: "Extra", value: "extrapay" },
-  ]
+  const addedMovement = () => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setAddedMovementBanner(true)
+      setTimeout(() => {
+        setAddedMovementBanner(false)
+      }, BANNER_VISIBLE_TIME)
+    }, BACKEND_CALL_TIME)
+  }
   return (
-    <div className="flex justify-center items-center flex-col h-screen relative overflow-hidden bg-[#B4CADC]">
-      <Image
-        src="/rounded-balanceo.png"
-        alt="logo"
-        fill
-        className="absolute inset-0 w-full h-full object-contain opacity-1 pointer-events-none z-0"
-      />
-      <div className="flex flex-col w-full gap-6 max-w-md rounded-lg bg-linear-to-r from-transparent via-blue-900 to-transparent bg-blue-950 shadow-lg p-6 text-white/90 relative ">
-        <Link href="/" className="absolute top-4 left-4">
-          <Button className="hover:cursor-pointer">
-            <BackIcon />
-          </Button>
-        </Link>
-        <h1 className="text-center font-bold text-2xl">
+    <div className="fixed inset-0 z-50 flex justify-center items-center flex-col h-screen bg-black/30 backdrop-blur-sm">
+      <div className="flex flex-col w-full gap-4 max-w-md rounded-lg bg-[#fafafa] border border-zinc-200 shadow-md p-6">
+        <Button
+          onClick={() => setOpenCreate(false)}
+          className="hover:cursor-pointer"
+        >
+          <BackIcon />
+        </Button>
+
+        <h1 className="text-center text-zinc-900 font-bold text-2xl">
           Crear un nuevo movimiento
         </h1>
-        <div className="flex justify-center w-full text-blue-950 gap-1">
+        <div className="flex justify-center w-full gap-1">
           <Button
             onClick={() => {
               setTypeOfMovement("income")
             }}
             className={
               typeOfMovement === "income"
-                ? "rounded-sm bg-green-200 flex-1 py-1 hover:bg-green-300 hover:cursor-pointer"
-                : "rounded-sm bg-gray-100 flex-1 py-1 hover:bg-gray-200 hover:cursor-pointer"
+                ? "border rounded-lg bg-green-200 text-gray-800 flex-1 py-1 hover:bg-green-300 hover:cursor-pointer"
+                : "border rounded-lg bg-gray-100 text-gray-800 flex-1 py-1 hover:bg-gray-200 hover:cursor-pointer"
             }
           >
             Ingreso
@@ -87,8 +89,8 @@ function CreateMovement() {
             }}
             className={
               typeOfMovement === "income"
-                ? "rounded-sm bg-gray-100 flex-1 py-1 hover:bg-gray-200 hover:cursor-pointer"
-                : "rounded-sm bg-red-200 flex-1 py-1 hover:bg-red-300 hover:cursor-pointer"
+                ? "border rounded-lg bg-gray-100 flex-1 py-1 hover:bg-gray-200 hover:cursor-pointer"
+                : "border rounded-lg bg-red-200 flex-1 py-1 hover:bg-red-300 hover:cursor-pointer"
             }
           >
             Gasto
@@ -101,7 +103,7 @@ function CreateMovement() {
               type="text"
               onChange={(event) => setTitle(event.target.value)}
               value={title}
-              placeholder="Entradas"
+              placeholder="Ej. Entradas"
             />
           </div>
           <div className="flex flex-col items-center mb-2 ">
@@ -132,7 +134,7 @@ function CreateMovement() {
               placeholder="Entradas para ver a Coldplay"
             />
           </div>
-          <div className="flex flex-col items-center mb-2">
+          <div className="flex gap-2 items-center mb-2">
             <Input
               text="Cantidad"
               type="text"
@@ -140,8 +142,7 @@ function CreateMovement() {
               value={money}
               placeholder="0,00€"
             />
-          </div>
-          <div className="flex flex-col items-center mb-2">
+
             <Input
               text="Fecha"
               type="date"
@@ -150,7 +151,11 @@ function CreateMovement() {
             />
           </div>
 
-          <Button className="w-full text-center rounded-lg bg-white text-blue-950 hover:bg-gray-200 hover:text-black p-3 hover:cursor-pointer">
+          <Button
+            onClick={addedMovement}
+            loading={loading}
+            className="w-full text-center rounded-lg border active:scale-95 transition-transform active:bg-gray-200 hover:bg-gray-200 p-3 hover:cursor-pointer"
+          >
             Guardar
           </Button>
         </form>

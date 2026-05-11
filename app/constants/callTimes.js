@@ -1,0 +1,2 @@
+export const BANNER_VISIBLE_TIME = 1500
+export const BACKEND_CALL_TIME = 1500
