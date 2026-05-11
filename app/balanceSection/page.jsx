@@ -15,7 +15,7 @@ function BalanceSection() {
     <div className="flex flex-col justify-around h-full items-center py-4 px-10">
       <div className="rounded-lg flex flex-col justify-center items-center">
         <Link href="/balanceSection/balance">
-          <Button className="text-4xl px-5 py-3 font-serif my-1 text-gray-600 hover:text-black transition-all duration-400 hover:scale-110">
+          <Button className="text-4xl px-5 py-3 font-serif my-1 text-gray-800 active:scale-105 transition-transform hover:cursor-pointer">
             Balance
           </Button>
         </Link>

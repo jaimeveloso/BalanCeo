@@ -7,6 +7,7 @@ import { useContext } from "react"
 import { FinanceContext } from "@/context/FinanceContext"
 import Link from "next/link"
 import Header from "@/app/Header/Header"
+import Image from "next/image"
 function BalanceBoard() {
   const { formData } = useContext(FinanceContext)
   const onlyNegativeCategories = formData.filter((num) => num.money < 0)
@@ -23,17 +24,18 @@ function BalanceBoard() {
   }, negativeCategoriesMoney)
 
   return (
-    <div className="min-h-screen w-full relative overflow-hidden bg-[#B4CADC]">
+    <div className="min-h-screen w-full relative overflow-hidden bg-gray-100">
       <Header />
-      <img
+      <Image
         src="/rounded-balanceo.png"
         alt="logo"
+        fill
         className="absolute inset-0 w-full h-full object-contain opacity-1 pointer-events-none z-0"
       />
       <div className="w-full flex flex-col gap-20 items-center py-6 justify-center">
         <div className="flex justify-center w-full px-20">
           <Link href="/" className="flex items-center">
-            <Button>
+            <Button className="hover:cursor-pointer">
               <BackIcon />
             </Button>
           </Link>
