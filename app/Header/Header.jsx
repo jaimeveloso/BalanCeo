@@ -2,7 +2,7 @@ import Link from "next/link"
 import Button from "../../components/ui/Button/Button"
 import Image from "next/image"
 
-function Header() {
+function Header({ setOpenCreate }) {
   return (
     <header className="bg-blue-900 shadow-md shadow-blue-950 rounded-md">
       <div className="max-w-6xl mx-auto flex justify-between px-3 py-5 items-center text-white">
@@ -11,8 +11,8 @@ function Header() {
             <Image
               src="/rounded-balanceo.png"
               alt="mini-logo"
-              width={30}
-              height={30}
+              width={50}
+              height={50}
               className="w-10 h-10 hover:cursor"
             />
 
@@ -22,12 +22,12 @@ function Header() {
           </Link>
         </div>
         <div className="flex gap-7">
-          <Link href="/movements/new">
-            <Button className="hover:cursor-pointer rounded-lg py-2 px-2 border border-gray-50 bg-blue-800 active:scale-95 transition-transform">
-              Crear Movimiento
-            </Button>
-          </Link>
-
+          <Button
+            onClick={() => setOpenCreate(true)}
+            className="hover:cursor-pointer rounded-lg py-2 px-2 border border-gray-50 bg-blue-800 active:scale-95 transition-transform"
+          >
+            Crear Movimiento
+          </Button>
           <Button className="hover:cursor-pointer">Light/Dark</Button>
         </div>
       </div>

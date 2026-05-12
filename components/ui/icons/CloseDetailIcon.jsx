@@ -5,7 +5,7 @@ function CloseDetailIcon() {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth="1.5"
-      stroke="green"
+      stroke="#1565C0"
       className="size-5"
     >
       <path
