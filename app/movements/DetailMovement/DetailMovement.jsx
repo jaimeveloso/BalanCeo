@@ -9,7 +9,7 @@ function DetailMovement() {
   const { detailMovement, setDetailMovement } = useContext(FinanceContext)
   if (!detailMovement) return null
   return (
-    <div className="flex flex-col justify-center text-center gap-2 w-full py-3 px-3 rounded-lg shadow-md relative">
+    <div className="flex flex-col justify-center text-center gap-2 w-full py-3 px-3 rounded-lg shadow-md relative dark:text-white dark:tracking-wide">
       {detailMovement.title && (
         <h1 className="font-bold text-center text-xl">
           {detailMovement.title}

@@ -1,10 +1,15 @@
 import Link from "next/link"
 import Button from "../../components/ui/Button/Button"
 import Image from "next/image"
+import { useContext, useState } from "react"
+import { FinanceContext } from "@/context/FinanceContext"
+import Switch from "@/components/ui/Switch/Switch"
 
-function Header({ setOpenCreate }) {
+function Header() {
+  const { setOpenCreate } = useContext(FinanceContext)
+
   return (
-    <header className="bg-blue-900 shadow-md shadow-blue-950 rounded-md">
+    <header className="bg-blue-900 shadow-md shadow-blue-950 rounded-md dark:bg-zinc-900/80 dark:shadow-black ">
       <div className="max-w-6xl mx-auto flex justify-between px-3 py-5 items-center text-white">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">
@@ -21,14 +26,14 @@ function Header({ setOpenCreate }) {
             </span>
           </Link>
         </div>
-        <div className="flex gap-7">
+        <div className="flex items-center gap-20">
           <Button
             onClick={() => setOpenCreate(true)}
-            className="hover:cursor-pointer rounded-lg py-2 px-2 border border-gray-50 bg-blue-800 active:scale-95 transition-transform"
+            className="hover:cursor-pointer rounded-lg py-1 px-2 border border-gray-50 bg-white text-black active:scale-95 transition-transform dark:bg-gray-600/90 dark:text-white dark:border-black"
           >
             Crear Movimiento
           </Button>
-          <Button className="hover:cursor-pointer">Light/Dark</Button>
+          <Switch />
         </div>
       </div>
     </header>

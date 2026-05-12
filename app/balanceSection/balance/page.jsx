@@ -24,7 +24,7 @@ function BalanceBoard() {
   }, negativeCategoriesMoney)
 
   return (
-    <div className="min-h-screen w-full relative overflow-hidden bg-gray-100">
+    <div className="min-h-screen w-full relative overflow-hidden bg-gray-100 dark:bg-taupe-700/90">
       <Header />
       <Image
         src="/rounded-balanceo.png"
@@ -32,7 +32,7 @@ function BalanceBoard() {
         fill
         className="absolute inset-0 w-full h-full object-contain opacity-1 pointer-events-none z-0"
       />
-      <div className="w-full flex flex-col gap-20 items-center py-6 justify-center">
+      <div className="w-full flex flex-col gap-20 items-center py-6 justify-center dark:text-white">
         <div className="flex justify-center w-full px-20">
           <Link href="/" className="flex items-center">
             <Button className="hover:cursor-pointer">

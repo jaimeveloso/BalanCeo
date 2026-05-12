@@ -7,7 +7,7 @@ function Input({ text, type, onChange, value, placeholder }) {
         onChange={onChange}
         value={value}
         placeholder={placeholder}
-        className="w-full placeholder-zinc-300 border text-zinc-900 bg-zinc-100  rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300/70 focus:outline-none focus:bg-white focus:border-transparent transition-colors"
+        className="w-full placeholder-zinc-300 border text-zinc-900 bg-gray-50  rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300/70 focus:outline-none focus:bg-white focus:border-transparent transition-colors"
       />
     </>
   )

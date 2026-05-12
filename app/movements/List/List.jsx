@@ -10,6 +10,7 @@ import CloseDetailIcon from "@/components/ui/icons/CloseDetailIcon"
 import Image from "next/image"
 import DetailMovement from "../DetailMovement/DetailMovement"
 import Spinner from "@/components/ui/Spinner/Spinner"
+import CreateMovement from "../CreateMovement/CreateMovement"
 
 function List() {
   const {
@@ -21,12 +22,20 @@ function List() {
     isDetailSelected,
     handleDetailSelection,
     loading,
+    openCreate,
+    addedMovementBanner,
   } = useContext(FinanceContext)
 
   return (
     <>
+      {openCreate && <CreateMovement />}
       <div className="flex justify-center items-center px-2 py-2">
         {loading && <Spinner />}
+        {addedMovementBanner && (
+          <p className="rounded-lg bg-green-300/50 w-full text-center px-2 py-2">
+            Movimiento realizado correctamente
+          </p>
+        )}
         {deletedMovementBanner && (
           <p className="rounded-lg bg-red-300/50 w-full text-center px-2 py-2">
             Movimiento eliminado correctamente
@@ -41,31 +50,33 @@ function List() {
           className="absolute inset-0 w-full h-full object-contain opacity-1 pointer-events-none z-0"
         />
 
-        <div className="flex flex-col w-full max-w-lg gap-6 rounded-xl bg-gray-50 shadow-lg p-6">
+        <div className="flex flex-col w-full max-w-lg gap-6 rounded-xl bg-gray-50 shadow-lg p-6 dark:bg-gray-600 dark:tracking-wide">
           <Link href="/">
-            <Button className="absloute top-4 hover:text-blue-950">
+            <Button className="absloute top-4 hover:text-blue-950 dark:text-white dark:hover:text-zinc-200">
               <BackIcon />
             </Button>
           </Link>
-          <div className="flex gap-2 justify-center text-white">
+          <div className="flex gap-2 justify-center text-white dark:text-black">
             <Button
               onClick={() => changeScreenAtMovement(SCREENS.LIST)}
-              className="rounded-lg py-1 px-2 bg-gray-500 hover:bg-gray-600 hover:cursor-pointer"
+              className="rounded-lg py-1 px-2 bg-gray-500 hover:bg-gray-600 hover:cursor-pointer dark:bg-white/80 dark:hover:bg-white"
             >
               Listado
             </Button>
             <Button
               onClick={() => changeScreenAtMovement(SCREENS.CARD)}
-              className="rounded-lg py-1 px-2 bg-gray-500 hover:bg-gray-600 hover:cursor-pointer"
+              className="rounded-lg py-1 px-2 bg-gray-500 hover:bg-gray-600 hover:cursor-pointer dark:bg-white/80 dark:hover:bg-white"
             >
               Tarjetas
             </Button>
           </div>
-          <h1 className="text-center font-bold text-2xl">Movimientos</h1>
+          <h1 className="text-center font-bold text-2xl dark:text-white">
+            Movimientos
+          </h1>
           {formData.map((data, index) => (
             <div
               key={index}
-              className={`flex justify-between items-center px-2 py-2 rounded-lg shadow-sm ${Number(data.money) < 0 ? "bg-red-200/50" : "bg-green-200/50"}`}
+              className={`flex justify-between items-center px-2 py-2 rounded-lg shadow-sm ${Number(data.money) < 0 ? "bg-red-200/50 dark:bg-red-800/50 dark:text-white" : "bg-green-200/50 dark:bg-green-800/50 dark:text-white"}`}
             >
               <div>
                 <p className="font-bold">{data.title}</p>
