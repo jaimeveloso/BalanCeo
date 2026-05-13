@@ -17,6 +17,8 @@ function FinanceProvider({ children }) {
   const [loading, setLoading] = useState(false)
   const [addedMovementBanner, setAddedMovementBanner] = useState(false)
   const [deletedMovementBanner, setDeletedMovementBanner] = useState(false)
+  const [openCreate, setOpenCreate] = useState(false)
+  const [isDark, setIsDark] = useState(false)
 
   const addMovement = (movement) => {
     setFormData((prev) => [...prev, movement])
@@ -72,6 +74,10 @@ function FinanceProvider({ children }) {
         setDeletedMovementBanner,
         isDetailSelected,
         handleDetailSelection,
+        openCreate,
+        setOpenCreate,
+        isDark,
+        setIsDark,
       }}
     >
       {children}

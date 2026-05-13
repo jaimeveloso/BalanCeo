@@ -6,7 +6,7 @@ function CloseDetailIcon() {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="#1565C0"
-      className="size-5"
+      className="size-5 dark:stroke-blue-300"
     >
       <path
         strokeLinecap="round"

@@ -30,7 +30,7 @@ function BarChart() {
   const data = dashboardData(totalExpense, totalIncome)
 
   return (
-    <div className="h-100 mx-auto w-full">
+    <div className="h-100 mx-auto w-full ">
       <Bar data={data} options={options} />
     </div>
   )

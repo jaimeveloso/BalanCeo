@@ -11,7 +11,7 @@ import {
   BANNER_VISIBLE_TIME,
 } from "@/app/constants/callTimes"
 
-function CreateMovement({ setOpenCreate }) {
+function CreateMovement() {
   const [title, setTitle] = useState("")
   const [category, setCategory] = useState("")
   const [description, setDescription] = useState("")
@@ -24,6 +24,7 @@ function CreateMovement({ setOpenCreate }) {
     setAddedMovementBanner,
     loading,
     setLoading,
+    setOpenCreate,
   } = useContext(FinanceContext)
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -58,16 +59,16 @@ function CreateMovement({ setOpenCreate }) {
     }, BACKEND_CALL_TIME)
   }
   return (
-    <div className="fixed inset-0 z-50 flex justify-center items-center flex-col h-screen bg-black/30 backdrop-blur-sm">
-      <div className="flex flex-col w-full gap-4 max-w-md rounded-lg bg-[#fafafa] border border-zinc-200 shadow-md p-6">
+    <div className="fixed inset-0 z-50 flex justify-center items-center flex-col h-screen bg-white/30 dark:bg-black/30 backdrop-blur-sm dark:tracking-wide">
+      <div className="flex flex-col w-full gap-4 max-w-md rounded-lg bg-white border border-zinc-200 shadow-lg p-6 dark:bg-taupe-800 dark:border-zinc-700">
         <Button
           onClick={() => setOpenCreate(false)}
-          className="hover:cursor-pointer"
+          className="hover:cursor-pointer dark:text-white dark:hover:text-zinc-200"
         >
           <BackIcon />
         </Button>
 
-        <h1 className="text-center text-zinc-900 font-bold text-2xl">
+        <h1 className="text-center text-zinc-900 font-bold text-2xl dark:text-white">
           Crear un nuevo movimiento
         </h1>
         <div className="flex justify-center w-full gap-1">
@@ -77,8 +78,8 @@ function CreateMovement({ setOpenCreate }) {
             }}
             className={
               typeOfMovement === "income"
-                ? "border rounded-lg bg-green-200 text-gray-800 flex-1 py-1 hover:bg-green-300 hover:cursor-pointer"
-                : "border rounded-lg bg-gray-100 text-gray-800 flex-1 py-1 hover:bg-gray-200 hover:cursor-pointer"
+                ? "border rounded-lg bg-green-200 text-gray-800 flex-1 py-1 hover:bg-green-300 hover:cursor-pointer dark:bg-green-800/80 dark:text-white dark:hover:bg-green-900/90"
+                : "border rounded-lg bg-gray-50 text-gray-800 flex-1 py-1 hover:bg-gray-100 hover:cursor-pointer dark:bg-gray-500 dark:text-white dark:hover:bg-gray-600 active:scale-102 transition-transform"
             }
           >
             Ingreso
@@ -89,14 +90,17 @@ function CreateMovement({ setOpenCreate }) {
             }}
             className={
               typeOfMovement === "income"
-                ? "border rounded-lg bg-gray-100 flex-1 py-1 hover:bg-gray-200 hover:cursor-pointer"
-                : "border rounded-lg bg-red-200 flex-1 py-1 hover:bg-red-300 hover:cursor-pointer"
+                ? "border rounded-lg bg-gray-50 flex-1 py-1 hover:bg-gray-100 hover:cursor-pointer dark:bg-gray-500 dark:text-white dark:hover:bg-gray-600 active:scale-102 transition-transform"
+                : "border rounded-lg bg-red-200 flex-1 py-1 hover:bg-red-300 hover:cursor-pointer dark:bg-red-800/80 dark:text-white dark:hover:bg-red-900/90"
             }
           >
             Gasto
           </Button>
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-3 dark:text-white"
+        >
           <div className="flex flex-col items-center mb-2">
             <Input
               text="Título"
@@ -154,7 +158,7 @@ function CreateMovement({ setOpenCreate }) {
           <Button
             onClick={addedMovement}
             loading={loading}
-            className="w-full text-center rounded-lg border active:scale-95 transition-transform active:bg-gray-200 hover:bg-gray-200 p-3 hover:cursor-pointer"
+            className="w-full text-center rounded-lg border active:scale-95 transition-transform active:bg-gray-200 hover:bg-gray-200 p-3 hover:cursor-pointer dark:hover:bg-taupe-900"
           >
             Guardar
           </Button>

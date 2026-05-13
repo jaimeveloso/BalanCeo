@@ -10,18 +10,18 @@ function Movements() {
   const { selectedPage } = useContext(FinanceContext)
 
   return (
-    <div className="h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       {selectedPage === SCREENS.LIST && (
-        <>
+        <div className="min-h-screen dark:bg-taupe-700/90">
           <Header />
           <List />
-        </>
+        </div>
       )}
       {selectedPage === SCREENS.CARD && (
-        <>
+        <div className="min-h-screen dark:bg-taupe-700/90">
           <Header />
           <Card />
-        </>
+        </div>
       )}
     </div>
   )

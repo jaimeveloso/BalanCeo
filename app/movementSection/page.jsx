@@ -9,15 +9,15 @@ function MovementsSection() {
     <div className="h-full items-center flex justify-around flex-col py-4 px-10">
       <div className=" rounded-lg">
         <Link href="/movements">
-          <Button className="text-4xl text-gray-800 px-3 py-3 my-1 font-serif active:scale-105 transition-transform hover:cursor-pointer">
+          <Button className="text-4xl text-gray-800 px-3 py-3 my-1 font-serif active:scale-105 transition-transform hover:cursor-pointer dark:text-white">
             Movimientos
           </Button>
         </Link>
       </div>
 
-      <div className="w-full bg-gray-200 rounded-lg  shadow-sm shadow-gray-400 flex flex-col justify-around h-full px-3 py-10">
+      <div className="w-full bg-gray-200 rounded-lg  shadow-sm shadow-gray-400 flex flex-col justify-around h-full px-3 py-10 dark:bg-gray-600/90 dark:shadow-black/70">
         {formData.length === 0 ? (
-          <p className="text-blue-950 text-center text-2xl">
+          <p className="text-blue-950 text-center text-2xl dark:text-white">
             No hay movimientos
           </p>
         ) : (
