@@ -16,7 +16,7 @@ function BalanceSection() {
       <div className="rounded-lg flex flex-col justify-center items-center">
         <Link href="/balanceSection/balance">
           <Button className="text-4xl px-5 py-3 font-serif my-1 text-gray-800 active:scale-105 transition-transform hover:cursor-pointer dark:text-white">
-            Balance
+            Balance 🏦
           </Button>
         </Link>
       </div>
