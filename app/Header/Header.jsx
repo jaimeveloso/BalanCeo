@@ -29,9 +29,9 @@ function Header() {
         <div className="flex items-center gap-20">
           <Button
             onClick={() => setOpenCreate(true)}
-            className="hover:cursor-pointer rounded-lg py-1 px-2 border border-gray-50 bg-white text-black active:scale-95 transition-transform dark:bg-gray-600/90 dark:text-white dark:border-black"
+            className="hover:cursor-pointer rounded-lg py-1 px-1 border text-white active:scale-105 hover:scale-102 transition-transform dark:text-white dark:border"
           >
-            Crear Movimiento
+            Nuevo 💸
           </Button>
           <Switch />
         </div>

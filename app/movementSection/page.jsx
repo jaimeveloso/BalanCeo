@@ -10,7 +10,7 @@ function MovementsSection() {
       <div className=" rounded-lg">
         <Link href="/movements">
           <Button className="text-4xl text-gray-800 px-3 py-3 my-1 font-serif active:scale-105 transition-transform hover:cursor-pointer dark:text-white">
-            Movimientos
+            Movimientos 🧾
           </Button>
         </Link>
       </div>

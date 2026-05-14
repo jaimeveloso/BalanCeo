@@ -12,20 +12,20 @@
 //(check) -> correciones david
 //(check) -> light/dark que sea un switch
 //(check) -> terminar de decorar el modal de crear movimiento
-//el modal de crear movimiento que se abra en todas las vistas
+//(check) -> el modal de crear movimiento que se abra en todas las vistas
 
 //MODIFICACION GRANDE
 //(check) -> crear movimiento que sea un modal con el fondo mas sombreado (que aparezca encima del dashboard)
 //que persista en indexedDB
 //implementar wage API
-//clases para light/dark mode (estamos en ello)
+//(check) -> clases para light/dark mode
 //ultimar detalles (buenas practicas, UX/UI -> colores y cositas visuales. Demás cosas que se puedan mejorar)
 
 import Header from "@/app/Header/Header"
 import BalanceSection from "./balanceSection/page"
 import MovementsSection from "./movementSection/page"
 import Image from "next/image"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { FinanceContext } from "@/context/FinanceContext"
 import Spinner from "@/components/ui/Spinner/Spinner"
 import CreateMovement from "./movements/CreateMovement/CreateMovement"
@@ -33,6 +33,7 @@ import CreateMovement from "./movements/CreateMovement/CreateMovement"
 export default function Home() {
   const { addedMovementBanner, loading, openCreate, setOpenCreate } =
     useContext(FinanceContext)
+
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col dark:bg-blue-950/50">
       <Header setOpenCreate={setOpenCreate} />

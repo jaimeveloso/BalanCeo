@@ -11,12 +11,12 @@ import Image from "next/image"
 import DetailMovement from "../DetailMovement/DetailMovement"
 import Spinner from "@/components/ui/Spinner/Spinner"
 import CreateMovement from "../CreateMovement/CreateMovement"
+import ViewToggle from "@/components/ui/ViewToggle/ViewToggle"
 
 function List() {
   const {
     formData,
     detailMovement,
-    changeScreenAtMovement,
     deleteMovement,
     deletedMovementBanner,
     isDetailSelected,
@@ -56,23 +56,15 @@ function List() {
               <BackIcon />
             </Button>
           </Link>
-          <div className="flex gap-2 justify-center text-white dark:text-black">
-            <Button
-              onClick={() => changeScreenAtMovement(SCREENS.LIST)}
-              className="rounded-lg py-1 px-2 bg-gray-500 hover:bg-gray-600 hover:cursor-pointer dark:bg-white/80 dark:hover:bg-white"
-            >
-              Listado
-            </Button>
-            <Button
-              onClick={() => changeScreenAtMovement(SCREENS.CARD)}
-              className="rounded-lg py-1 px-2 bg-gray-500 hover:bg-gray-600 hover:cursor-pointer dark:bg-white/80 dark:hover:bg-white"
-            >
-              Tarjetas
-            </Button>
-          </div>
+          <ViewToggle />
           <h1 className="text-center font-bold text-2xl dark:text-white">
             Movimientos
           </h1>
+          {formData.length <= 0 && (
+            <span className="text-center font-mono dark:text-white">
+              Todo muy tranquilo por aquí... 🏜️
+            </span>
+          )}
           {formData.map((data, index) => (
             <div
               key={index}
@@ -83,7 +75,19 @@ function List() {
                 <p className="font-thin">{data.category}</p>
               </div>
               <div className="flex gap-5">
-                <p className="">{data.money}€</p>
+                <div>
+                  {data.money > 0 ? (
+                    <div className="flex gap-5">
+                      <span>📈</span>
+                      <span>{data.money}€</span>
+                    </div>
+                  ) : (
+                    <div className="flex gap-5">
+                      <span>📉</span>
+                      <span>{data.money}€</span>
+                    </div>
+                  )}
+                </div>
                 <Button
                   onClick={() => {
                     handleDetailSelection(data)
