@@ -5,8 +5,8 @@ function DeleteIcon() {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth="1.5"
-      stroke="red"
-      className="size-5 dark:stroke-red-300"
+      stroke="#e11d48"
+      className="size-5 dark:stroke-rose-400"
     >
       <path
         strokeLinecap="round"

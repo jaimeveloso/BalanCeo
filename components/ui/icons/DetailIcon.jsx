@@ -5,7 +5,7 @@ function DetailIcon() {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth="1.5"
-      stroke="#1565C0"
+      stroke="#1d4ed8"
       className="size-5 dark:stroke-blue-200"
     >
       <path

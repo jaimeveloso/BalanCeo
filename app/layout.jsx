@@ -1,6 +1,8 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, Sora } from "next/font/google"
 import "./globals.css"
 import FinanceProvider from "@/context/FinanceProvider"
+import CreateMovementModal from "@/app/movements/CreateMovement/CreateMovementModal"
+import BudgetModal from "@/app/budgets/BudgetModal"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -10,6 +12,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+})
+
+const sora = Sora({
+  variable: "--font-sora",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
 })
 
 export const metadata = {
@@ -24,11 +32,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="es"
+      className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <FinanceProvider>{children}</FinanceProvider>
+        <FinanceProvider>
+          {children}
+          <CreateMovementModal />
+          <BudgetModal />
+        </FinanceProvider>
       </body>
     </html>
   )

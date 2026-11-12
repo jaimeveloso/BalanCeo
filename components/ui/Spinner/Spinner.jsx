@@ -1,6 +1,6 @@
 function Spinner() {
   return (
-    <div className="w-8 h-8 rounded-full border-4 border-blue-700 border-t-white animate-spin" />
+    <div className="w-6 h-6 rounded-full border-[3px] border-blue-200 border-t-blue-700 animate-spin dark:border-slate-600 dark:border-t-blue-400" />
   )
 }
 export default Spinner

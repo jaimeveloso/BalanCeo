@@ -1,11 +1,11 @@
 "use client"
 import { useState } from "react"
 import { FinanceContext } from "./FinanceContext"
-import { SCREENS } from "@/app/constants/screens"
+import { SCREENS } from "@/app/config/screens"
 import {
   BACKEND_CALL_TIME,
   BANNER_VISIBLE_TIME,
-} from "@/app/constants/callTimes"
+} from "@/app/config/callTimes"
 
 const NEXT_ID_NUMBER = 1
 
@@ -19,6 +19,18 @@ function FinanceProvider({ children }) {
   const [deletedMovementBanner, setDeletedMovementBanner] = useState(false)
   const [openCreate, setOpenCreate] = useState(false)
   const [isDark, setIsDark] = useState(false)
+  const [budgets, setBudgets] = useState({})
+  const [openBudget, setOpenBudget] = useState(false)
+
+  const setBudget = (category, amount) => {
+    setBudgets((prev) => ({ ...prev, [category]: amount }))
+  }
+  const removeBudget = (category) => {
+    setBudgets((prev) => {
+      const { [category]: _removed, ...rest } = prev
+      return rest
+    })
+  }
 
   const addMovement = (movement) => {
     setFormData((prev) => [...prev, movement])
@@ -34,6 +46,7 @@ function FinanceProvider({ children }) {
     setLoading(true)
     const deletedMove = formData.filter((movement) => movement.id !== id)
     setFormData(deletedMove)
+    setDetailMovement((prev) => (prev?.id === id ? null : prev))
     setTimeout(() => {
       setLoading(false)
       setDeletedMovementBanner(true)
@@ -78,6 +91,11 @@ function FinanceProvider({ children }) {
         setOpenCreate,
         isDark,
         setIsDark,
+        budgets,
+        setBudget,
+        removeBudget,
+        openBudget,
+        setOpenBudget,
       }}
     >
       {children}
