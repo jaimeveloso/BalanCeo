@@ -1,2 +1,31 @@
 @import "tailwindcss";
-@variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-brand: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --animate-toast-in: toast-in 0.35s ease-out;
+  --animate-toast-out: toast-out 0.3s ease-in forwards;
+
+  @keyframes toast-in {
+    from {
+      transform: translateY(calc(-100% - 5rem));
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  @keyframes toast-out {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - 5rem));
+    }
+  }
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}

@@ -9,3 +9,10 @@ export const incomeCategories = [
   { title: "Nómina", value: "payroll" },
   { title: "Extra", value: "extrapay" },
 ]
+
+export function categoryLabel(value) {
+  const found = [...expenseCategories, ...incomeCategories].find(
+    (c) => c.value === value,
+  )
+  return found ? found.title : value
+}

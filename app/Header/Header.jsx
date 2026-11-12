@@ -9,27 +9,32 @@ function Header() {
   const { setOpenCreate } = useContext(FinanceContext)
 
   return (
-    <header className="bg-blue-900 shadow-md shadow-blue-950 rounded-md dark:bg-zinc-900/80 dark:shadow-black ">
-      <div className="max-w-6xl mx-auto flex justify-between px-3 py-5 items-center text-white">
-        <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center gap-2">
+    <header className="sticky top-0 z-40 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 shadow-lg shadow-blue-950/20 dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 dark:border-b dark:border-slate-700 dark:shadow-black/30">
+      <div className="max-w-6xl mx-auto flex justify-between px-6 py-4 items-center text-white">
+        <div className="flex items-center">
+          <Link href="/" className="group flex items-center gap-3">
             <Image
               src="/rounded-balanceo.png"
               alt="mini-logo"
               width={50}
               height={50}
-              className="w-10 h-10 hover:cursor"
+              className="w-11 h-11 rounded-full ring-2 ring-white/25 shadow-lg shadow-black/30 transition-transform duration-200 group-hover:scale-105 hover:cursor-pointer"
             />
 
-            <span className="font-serif text-xl font-bold hover hover:cursor-pointer">
-              BalanCeo
-            </span>
+            <div className="flex flex-col leading-none">
+              <span className="font-brand text-2xl font-bold tracking-tight hover:cursor-pointer">
+                Balan<span className="text-sky-300">Ceo</span>
+              </span>
+              <span className="hidden sm:block mt-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-blue-200/70 dark:text-slate-400">
+                El CEO de tu economía
+              </span>
+            </div>
           </Link>
         </div>
-        <div className="flex items-center gap-20">
+        <div className="flex items-center gap-6">
           <Button
             onClick={() => setOpenCreate(true)}
-            className="hover:cursor-pointer rounded-lg py-1 px-2 border border-gray-50 bg-white text-black active:scale-95 transition-transform dark:bg-gray-600/90 dark:text-white dark:border-black"
+            className="hover:cursor-pointer rounded-lg py-2 px-4 text-sm font-semibold bg-white text-blue-900 shadow-sm hover:bg-blue-50 active:scale-95 transition dark:bg-blue-800 dark:text-slate-100 dark:hover:bg-blue-700"
           >
             Crear Movimiento
           </Button>
