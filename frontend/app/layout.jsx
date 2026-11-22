@@ -1,5 +1,7 @@
 import { Geist, Geist_Mono, Sora } from "next/font/google"
 import "./globals.css"
+import AuthProvider from "@/context/AuthProvider"
+import AuthGuard from "@/app/AuthGuard/AuthGuard"
 import FinanceProvider from "@/context/FinanceProvider"
 import CreateMovementModal from "@/app/movements/CreateMovement/CreateMovementModal"
 import BudgetModal from "@/app/budgets/BudgetModal"
@@ -36,11 +38,15 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <FinanceProvider>
-          {children}
-          <CreateMovementModal />
-          <BudgetModal />
-        </FinanceProvider>
+        <AuthProvider>
+          <FinanceProvider>
+            <AuthGuard>
+              {children}
+              <CreateMovementModal />
+              <BudgetModal />
+            </AuthGuard>
+          </FinanceProvider>
+        </AuthProvider>
       </body>
     </html>
   )
