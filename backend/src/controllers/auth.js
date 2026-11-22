@@ -4,6 +4,7 @@ const SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000
 const User = require("../models/User")
 const jwt = require("jsonwebtoken")
 const config = require("../config/index")
+const crypto = require("crypto")
 const { saveRefreshToken, findRefreshToken, deleteRefreshToken } = require("../db/tokens")
 const asyncHandler = require("../utils/asyncHandler")
 
@@ -32,9 +33,11 @@ const login = asyncHandler(async (req, res) => {
   }
   const token = jwt.sign({ id: user._id }, config.jwtAccessSecret, {
     expiresIn: config.jwtAccessExpires,
+    jwtid: crypto.randomUUID(),
   })
   const refreshToken = jwt.sign({ id: user._id }, config.jwtRefreshSecret, {
     expiresIn: config.refreshTokenExpires,
+    jwtid: crypto.randomUUID(),
   })
   const refreshTokenExpiresAt = new Date(Date.now() + SEVEN_DAYS_IN_MS)
   await saveRefreshToken(user._id, refreshToken, refreshTokenExpiresAt)
@@ -58,9 +61,11 @@ const refresh = asyncHandler(async (req, res) => {
   }
   const newToken = jwt.sign({ id: user._id }, config.jwtAccessSecret, {
     expiresIn: config.jwtAccessExpires,
+    jwtid: crypto.randomUUID(),
   })
   const newRefreshToken = jwt.sign({ id: user._id }, config.jwtRefreshSecret, {
     expiresIn: config.refreshTokenExpires,
+    jwtid: crypto.randomUUID(),
   })
   const refreshTokenExpiresAt = new Date(Date.now() + SEVEN_DAYS_IN_MS)
   await saveRefreshToken(user._id, newRefreshToken, refreshTokenExpiresAt)
