@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Sora } from "next/font/google"
+import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import AuthProvider from "@/context/AuthProvider"
 import AuthGuard from "@/app/AuthGuard/AuthGuard"
@@ -16,12 +16,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
-const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-})
-
 export const metadata = {
   title: "BalanCeo",
   description: "Controla. Evalúa. Optimiza.",
@@ -35,7 +29,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <AuthProvider>

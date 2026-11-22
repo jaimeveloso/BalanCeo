@@ -4,7 +4,7 @@
 @theme inline {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-brand: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-brand: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --animate-toast-in: toast-in 0.35s ease-out;
   --animate-toast-out: toast-out 0.3s ease-in forwards;
 
